@@ -38,7 +38,8 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
+                {% csrf_token %}
+                {{app_context|json_script:"app-context"}}
                 {% block content %} {% endblock %}
 
             </div>
