@@ -201,11 +201,9 @@ const ListProduct = (props) => {
                                                                     )
                                                                 })}
                                                             </dl>
-                                                            {(product.variants.length) > 2 && (
-                                                                <button onClick={expendProps.clickHandler} className="btn btn-sm btn-link">
-                                                                    Show more
-                                                                </button>
-                                                            )}
+                                                            <button onClick={expendProps.clickHandler} className="btn btn-sm btn-link">
+                                                                Show more
+                                                            </button>
                                                         </>
                                                     )}
                                                 </Toggler>
