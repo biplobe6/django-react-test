@@ -53,40 +53,24 @@ class ProductCreateAPIView(APIView):
                 box[tag] = variant
                 variant.save()
 
-
-        variant_price_stock_hash = {}
-
         for prices in payload.get('prices'):
             price = prices.get('price')
             stock = prices.get('stock')
+            tags = prices.get('title')
 
-            key = "%s|%s" % (price, stock)
-            if key not in variant_price_stock_hash:
-                variant_price_stock_hash[key] = {
-                    'variants': [],
-                    'price': price,
-                    'stock': stock,
-                }
+            product_variants = [None, None, None]
+            for index, tag in enumerate(tags):
+                variant = variant_matrix[index][tag]
+                product_variants[index] = variant
 
-            container = variant_price_stock_hash[key]['variants']
-
-            for index, tag in enumerate(prices.get('title')):
-                variant = None
-                if tag:
-                    variant = variant_matrix[index][tag]
-
-                container.append(variant)
-
-
-        for variant in variant_price_stock_hash.values():
-            variants = iter(variant.get('variants'))
+            product_variant_one, product_variant_two, product_variant_three = product_variants
             product_variant_price = ProductVariantPrice(
                 product=product,
-                price=variant.get('price'),
-                stock=variant.get('stock'),
-                product_variant_one=get_next(variants),
-                product_variant_two=get_next(variants),
-                product_variant_three=get_next(variants),
+                price=price,
+                stock=stock,
+                product_variant_one=product_variant_one,
+                product_variant_two=product_variant_two,
+                product_variant_three=product_variant_three,
             )
             product_variant_price.save()
 
